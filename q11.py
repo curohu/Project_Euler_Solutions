@@ -91,3 +91,5 @@ for x in range(len(grid)):
                     factors = f
 
 print(largestPrd, factors)
+
+# Solution: 70600674 [('87', (15, 3)), ('97', (14, 4)), ('94', (13, 5)), ('89', (12, 6))]
