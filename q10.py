@@ -28,7 +28,7 @@ print(datetime.now()-stime)
 # 142913828922
 # 2:34:50.870747 <-- not multithreaded
 
-with open('primes_below_2mill','w') as file:
+with open('primes_below_2mill2','w') as file:
     for p in primes:
         file.write(str(p)+'\n')
     file.close()

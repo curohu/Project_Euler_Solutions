@@ -26,8 +26,7 @@
 # The product of these numbers is 26 × 63 × 78 × 14 = 1788696.
 
 # What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
-
-grid = """08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
+raw = """08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
 81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
 52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
@@ -47,23 +46,48 @@ grid = """08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
 20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"""
+fGrid = raw.split('\n')
+grid = list()
+sDirections = {'e':(1,0),'se':(1,1),'s':(0,1),'sw':(-1,1)}
+searchLength = 4
+largestPrd = 0
+factors = list()
 
-fGrid = grid.split('\n')
-nGrid = list()
 for line in fGrid:
     row = line.split(' ')
-    nGrid.append(row)
-searchLength = 4 #20
+    grid.append(row)
 
-def searchVector(x1,y1,x2,y2):
-    return None
+# potential directions are east (1,0), south-east (+1,+1), south (0,+1), south-west (-1,+1). if moving in a left to right, up to down direction
+# this is technically invterted Q1 on a grid so keep that in mind. it SHOULD work the same as it equally inverts all indexes
 
-# Look up vector math as that is probably the best answer
+def searchVector(field,start,direction,distance): # start is x,y of start; direction is normalized vector; distance is times to iterate normalized vector move
+    prd = 1
+    x1,y1 = start
+    x2, y2 = direction
+    fct = list()
+    try:
+        fct.append((field[x1][y1],(x1,y1)))
+        prd *= int(field[x1][y1])
+        for i in range(1,distance):
+            x1 += x2
+            y1 += y2
+            prd *= int(field[x1][y1])
+            fct.append((field[x1][y1],(x1,y1)))
+        return prd, fct
+    except IndexError as e:
+        return None, None
+    except Exception as e:
+        raise e
 
+for x in range(len(grid)):
+    for y in range(len(grid[x])):
+        start = (x,y)
+        for d in sDirections:
+            direction = sDirections[d]
+            prd, f = searchVector(grid,start,direction,searchLength)
+            if prd is not None:
+                if prd > largestPrd:
+                    largestPrd = prd
+                    factors = f
 
-
-
-
-
-
-print(nGrid)
+print(largestPrd, factors)
