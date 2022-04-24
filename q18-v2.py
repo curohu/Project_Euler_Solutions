@@ -61,6 +61,7 @@ class POINT(object):
         self.origin = (0,0)
         self.origin_value = 0
         self.possibilities = {} # dict
+        self.posibilityTrees = {} # I would expect there to be two. it will contain the SUM of the tree as a key and then a list of the (x,y)s of each reachable point
         self.choice = (0,0)
         self.choice_value = 0
 
