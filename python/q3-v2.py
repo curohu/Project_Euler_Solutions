@@ -19,7 +19,8 @@
 
 # largest_prime_factor(600851475143)
 # # => 6857
-
+import time
+stime = time.time()
 target = 600851475143
 i = 3
 while target > 1:
@@ -30,3 +31,4 @@ while target > 1:
     else:
         i += 2
 print(i)
+print("{:.6f}".format(time.time()-stime))
